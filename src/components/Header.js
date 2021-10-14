@@ -2,21 +2,27 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import CreateNewFolder from "@material-ui/icons/CreateNewFolder";
 import NoteAdd from "@material-ui/icons/NoteAdd";
+import { useLocation, useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { openedCreateScope, closedCreateScope } from './../store/toolkitReducers';
 
-const Header = ({ setOpenCreateFolder }) => {
+const Header = () => {
+    const location = useLocation()
+    const history = useHistory()
+    const dispatch = useDispatch()
     return (
         <div>
             <Tooltip title="Create New Folder">
-                <IconButton onClick={() => setOpenCreateFolder(true)} aria-label="createNewFolder" color="primary" size="medium">
+                <IconButton onClick={() => dispatch(openedCreateScope())} aria-label="createNewFolder" color="primary" size="medium">
                     <CreateNewFolder />
                 </IconButton>
             </Tooltip>
             <Tooltip title="Create New File">
-                <IconButton onClick={() => setOpenCreateFolder(false)} aria-label="noteAdd" color="primary" size="medium">
+                <IconButton onClick={() => dispatch(closedCreateScope())} aria-label="noteAdd" color="primary" size="medium">
                     <NoteAdd />
                 </IconButton>
             </Tooltip>
-        </div>
+        </div >
     )
 }
 

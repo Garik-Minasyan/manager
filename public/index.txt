@@ -1,5 +1,4 @@
-breadcrumbs ui,
-typescript,react,react-redux,styled components,sass,react-router
+breadcrumbs ui,react,react-redux,styled components,sass,react-router
 
 home page , 1 folder u  1 file
 

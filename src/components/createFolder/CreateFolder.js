@@ -2,6 +2,8 @@ import CreateNewFolder from "@material-ui/icons/CreateNewFolder";
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { addFolderList } from './../../store/toolkitReducers';
 
 const CreateFolderWrap = styled.div`
     width: 20%;
@@ -15,15 +17,20 @@ const CreateFolderWrap = styled.div`
 `
 const CreateFolder = () => {
     const [nameFolder, setNameFolder] = useState('');
+    const dispatch = useDispatch();
     const onChangeNameFolder = (e) => {
         setNameFolder(e.target.value)
+    }
+
+    const createAndAddFolder = (e) => {
+        dispatch(addFolderList(nameFolder))
         e.preventDefault()
     }
 
     return (
         <CreateFolderWrap>
             <CreateNewFolder />
-            <form>
+            <form onSubmit={createAndAddFolder}>
                 <label>
                     <TextField onChange={(e) => onChangeNameFolder(e)} value={nameFolder} id="filled-basic" label="New Folder" variant="filled" />
                 </label>
