@@ -1,10 +1,7 @@
-import { Button } from "@material-ui/core";
-
-const Home = props => {
-    const { history } = props;
+const Home = () => {
     return (
         <>
-            <Button onClick={() => history.push("/jobs")}>JOBS</Button>
+            <h1>File Manajer</h1>
         </>
     );
 };

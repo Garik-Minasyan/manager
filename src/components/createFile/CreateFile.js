@@ -26,6 +26,7 @@ const CreateFile = () => {
     const createAndAddFile = (e) => {
         dispatch(addFileList(nameFile))
         e.preventDefault()
+        setNameFile('')
     }
 
     return (

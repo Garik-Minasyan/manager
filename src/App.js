@@ -13,16 +13,20 @@ export default function App() {
   const isOpened = useSelector(state => state.toolkit.isOpened)
   return (
     <div className="app">
-      <Breadcrumbs />
-      <Switch>
-        <Route exact from="/" render={props => <Home {...props} />} />
-      </Switch>
       <Header />
+      <Switch>
+        <Route exact from="/">
+          <Home />
+        </Route>
+        <Route from="/:handle">
+          <Folder />
+        </Route>
+      </Switch>
       {isOpened ? <CreateFolder />
         : <CreateFile />
       }
-      <Folder />
       <File />
+      {/* <Breadcrumbs /> */}
     </div>
   );
 }

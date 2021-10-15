@@ -25,6 +25,7 @@ const CreateFolder = () => {
     const createAndAddFolder = (e) => {
         dispatch(addFolderList(nameFolder))
         e.preventDefault()
+        setNameFolder('')
     }
 
     return (

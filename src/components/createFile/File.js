@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Delete } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import DescriptionIcon from '@material-ui/icons/Description';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteFile, renameFile } from './../../store/toolkitReducers';
 import styled from "styled-components";
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
+
 
 const AddFileWrap = styled.div`
     width: 15%;
@@ -30,9 +35,38 @@ const IconFileWrap = styled.div`
         font-family:Arial, Helvetica, sans-serif;
     }
 `
+const RenameWrap = styled.div`
+    position: absolute;
+    top:180px;
+    input{
+        height: 30px;
+        outline: none;
+    }
+`
 
 const File = () => {
-    const files = useSelector(state => state.toolkit.files)
+    const [openRenameSection, setOpenReanmeSection] = useState(false);
+    const [renameFileName, setRenameNameFileName] = useState('');
+    const dispatch = useDispatch();
+    const files = useSelector(state => state.toolkit.files);
+
+    const deleteFileList = (id) => {
+        dispatch(deleteFile(id))
+    }
+
+    const openRename = () => {
+        setOpenReanmeSection(prevSate => !prevSate)
+    }
+
+    const onChangeName = (e) => {
+        setRenameNameFileName(e.target.value)
+    }
+    const chekedName = () => {
+        dispatch(renameFile(renameFileName))
+        setRenameNameFileName('')
+        setOpenReanmeSection(false)
+    }
+
     return (
         <FileWrap>
             {
@@ -43,9 +77,23 @@ const File = () => {
                                 <DescriptionIcon />
                                 <Link to={list.id}>{list.name}</Link>
                             </IconFileWrap>
+                            <Tooltip title="Reanme">
+                                <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">
+                                    <EditIcon />
+                                </IconButton>
+                            </Tooltip>
+                            {
+                                openRenameSection &&
+                                <RenameWrap>
+                                    <input onChange={(e) => onChangeName(e)} type='text' placeholder="rename" value={renameFileName} />
+                                    <IconButton onClick={chekedName} aria-label="checked" color="primary" size="medium">
+                                        <CheckIcon />
+                                    </IconButton>
+                                </RenameWrap>
+                            }
                             <Tooltip title="Delete File">
-                                <IconButton aria-label="delete" color="primary" size="medium">
-                                    <Delete />
+                                <IconButton onClick={() => deleteFileList(list.id)} aria-label="delete" color="primary" size="medium">
+                                    <Delete color="error" />
                                 </IconButton>
                             </Tooltip>
                         </AddFileWrap>
