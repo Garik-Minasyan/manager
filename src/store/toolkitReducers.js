@@ -7,15 +7,6 @@ const initialState = {
     isOpened: true
 }
 
-// folder = {
-//     direction: useParams() || '/',
-//     name: 'name',
-//     id: uuidv4()
-// }
-
-// eji mej 
-// folders = folder.filter(i => i.directon === useParams())
-
 export const openedCreateScope = createAction("OPENEDCREATESCOPE");
 export const closedCreateScope = createAction("CLOSEDCREATESCOPE");
 export const addFolderList = createAction("ADDFOLDERLIST");

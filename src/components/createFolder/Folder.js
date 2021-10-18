@@ -8,8 +8,8 @@ import styled from "styled-components";
 import { deleteFolder, renameFolder } from './../../store/toolkitReducers';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
-import { useState } from "react";
-import { useParams } from 'react-router';
+import { useEffect, useState } from "react";
+import { useParams, useLocation } from 'react-router';
 
 const AddFoldereWrap = styled.div`
     width: 15%;
@@ -44,15 +44,20 @@ const RenameWrap = styled.div`
     }
 `
 const Folder = () => {
-    const { folderId } = useParams()
+    // const { folderId } = useParams();
     const [openRenameSection, setOpenReanmeSection] = useState(false);
+    const location = useLocation();
+    console.log(location.pathname, 'dddddddddddddddddddd')
+
     const [renameFolderName, setRenameNameFolderName] = useState('');
     const folders = useSelector(state => state.toolkit.folders);
     const dispatch = useDispatch();
+    // console.log(folders, 'ddd')
+    // console.log(folderId, 'dddddddddddd')
+    // const currentFolders = folders.filter(i => i.directon === (folderId ?? '/'))
+    // console.log(currentFolders, 'eeeeeeeeeee')
 
-    console.log(folders, 'ddd')
-    const currentFolders = folders.filter(i => i.directon !== (parseInt(folderId) ?? '/'))
-    console.log(currentFolders, 'eeeeeeeeeee')
+
 
     const deleteFolderList = (id) => {
         dispatch(deleteFolder(id))
@@ -74,12 +79,12 @@ const Folder = () => {
     return (
         <FolderWrap>
             {
-                currentFolders.map((list, index) => {
+                folders.map((list, index) => {
                     return (
                         <AddFoldereWrap key={index}>
                             <IconFolderWrap>
                                 <FolderIcon />
-                                <Link to={`/${list.name}`}>{list.name}</Link>
+                                <Link to={`${location.pathname}/${list.name}`}>{list.name}</Link>
                             </IconFolderWrap>
                             <Tooltip title="Reanme">
                                 <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">
