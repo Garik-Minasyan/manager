@@ -6,6 +6,16 @@ const initialState = {
     files: [],
     isOpened: true
 }
+
+// folder = {
+//     direction: useParams() || '/',
+//     name: 'name',
+//     id: uuidv4()
+// }
+
+// eji mej 
+// folders = folder.filter(i => i.directon === useParams())
+
 export const openedCreateScope = createAction("OPENEDCREATESCOPE");
 export const closedCreateScope = createAction("CLOSEDCREATESCOPE");
 export const addFolderList = createAction("ADDFOLDERLIST");
@@ -27,9 +37,15 @@ export default createReducer(initialState, {
         state.folders = [
             ...state.folders,
             {
-                name: action.payload,
-                id: uuidv4()
-            }
+                name: action.payload.nameFolder,
+                direction: action.payload.locationPatname,
+                id: uuidv4(),
+                type: 'folder',
+                // childrens: {
+                //     folders: [],
+                //     items: [],
+                // },
+            },
         ]
     },
     [addFileList]: (state, action) => {
@@ -37,7 +53,8 @@ export default createReducer(initialState, {
             ...state.files,
             {
                 name: action.payload,
-                id: uuidv4()
+                id: uuidv4(),
+                type: 'file'
             }
         ]
     },
@@ -64,6 +81,3 @@ export default createReducer(initialState, {
         ]
     }
 });
-
-//486eea5a-b5a0-4d3d-ba28-14c038b7d7d8
-//fff0899a-05cf-4317-9454-8a6aa012b7c2

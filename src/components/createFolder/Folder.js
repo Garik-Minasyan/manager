@@ -9,7 +9,7 @@ import { deleteFolder, renameFolder } from './../../store/toolkitReducers';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import { useState } from "react";
-import { useLocation, useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 const AddFoldereWrap = styled.div`
     width: 15%;
@@ -44,13 +44,15 @@ const RenameWrap = styled.div`
     }
 `
 const Folder = () => {
-    const { handle } = useParams()
-    console.log(handle)
+    const { folderId } = useParams()
     const [openRenameSection, setOpenReanmeSection] = useState(false);
     const [renameFolderName, setRenameNameFolderName] = useState('');
     const folders = useSelector(state => state.toolkit.folders);
     const dispatch = useDispatch();
-    const location = useLocation()
+
+    console.log(folders, 'ddd')
+    const currentFolders = folders.filter(i => i.directon !== (parseInt(folderId) ?? '/'))
+    console.log(currentFolders, 'eeeeeeeeeee')
 
     const deleteFolderList = (id) => {
         dispatch(deleteFolder(id))
@@ -72,12 +74,12 @@ const Folder = () => {
     return (
         <FolderWrap>
             {
-                folders && folders.map((list, index) => {
+                currentFolders.map((list, index) => {
                     return (
                         <AddFoldereWrap key={index}>
                             <IconFolderWrap>
                                 <FolderIcon />
-                                <Link to={`${list.id}`}>{list.name}</Link>
+                                <Link to={`/${list.name}`}>{list.name}</Link>
                             </IconFolderWrap>
                             <Tooltip title="Reanme">
                                 <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">
