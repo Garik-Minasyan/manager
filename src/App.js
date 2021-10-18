@@ -16,9 +16,6 @@ export default function App() {
       {isOpened ? <CreateFolder /> : <CreateFile />}
       <Breadcrumbs />
       <Switch>
-        {/* <Route exact from="/">
-          <Home />
-        </Route> */}
         <Route from="/:folderId">
           <Main />
         </Route>

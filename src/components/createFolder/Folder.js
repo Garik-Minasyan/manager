@@ -8,8 +8,8 @@ import styled from "styled-components";
 import { deleteFolder, renameFolder } from './../../store/toolkitReducers';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
-import { useEffect, useState } from "react";
-import { useParams, useLocation } from 'react-router';
+import { useState } from "react";
+import { useLocation } from 'react-router';
 
 const AddFoldereWrap = styled.div`
     width: 15%;
@@ -44,20 +44,14 @@ const RenameWrap = styled.div`
     }
 `
 const Folder = () => {
-    // const { folderId } = useParams();
     const [openRenameSection, setOpenReanmeSection] = useState(false);
     const location = useLocation();
-    console.log(location.pathname, 'dddddddddddddddddddd')
+    console.log(location.pathname)
 
     const [renameFolderName, setRenameNameFolderName] = useState('');
     const folders = useSelector(state => state.toolkit.folders);
     const dispatch = useDispatch();
-    // console.log(folders, 'ddd')
-    // console.log(folderId, 'dddddddddddd')
     // const currentFolders = folders.filter(i => i.directon === (folderId ?? '/'))
-    // console.log(currentFolders, 'eeeeeeeeeee')
-
-
 
     const deleteFolderList = (id) => {
         dispatch(deleteFolder(id))

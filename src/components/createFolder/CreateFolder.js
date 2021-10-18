@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addFolderList } from './../../store/toolkitReducers';
-import { useParams, useLocation } from "react-router";
+import { useLocation } from "react-router";
 
 const CreateFolderWrap = styled.div`
     width: 20%;
@@ -18,10 +18,10 @@ const CreateFolderWrap = styled.div`
 `
 const CreateFolder = () => {
     const dispatch = useDispatch();
-    const { folderId } = useParams();
     const location = useLocation();
-    const locationPatname = location.pathname
+    const locationPatname = location.pathname;
     const [nameFolder, setNameFolder] = useState('');
+
     const onChangeNameFolder = (e) => {
         setNameFolder(e.target.value)
     }

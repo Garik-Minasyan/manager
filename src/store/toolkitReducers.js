@@ -32,10 +32,6 @@ export default createReducer(initialState, {
                 direction: action.payload.locationPatname,
                 id: uuidv4(),
                 type: 'folder',
-                // childrens: {
-                //     folders: [],
-                //     items: [],
-                // },
             },
         ]
     },
