@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { deleteFolder, renameFolder } from './../../store/toolkitReducers';
+import { deleteFolder, renameFolder, filterFolder } from './../../store/toolkitReducers';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import { useState } from "react";
@@ -43,15 +43,19 @@ const RenameWrap = styled.div`
         outline: none;
     }
 `
+let arr = []
+
 const Folder = () => {
     const [openRenameSection, setOpenReanmeSection] = useState(false);
     const location = useLocation();
-    console.log(location.pathname)
+
 
     const [renameFolderName, setRenameNameFolderName] = useState('');
     const folders = useSelector(state => state.toolkit.folders);
+    console.log(folders)
     const dispatch = useDispatch();
-    // const currentFolders = folders.filter(i => i.directon === (folderId ?? '/'))
+    // const currentFolders = folders.finde(i => i.directon === location.pathname);
+    // console.log(currentFolders)
 
     const deleteFolderList = (id) => {
         dispatch(deleteFolder(id))
@@ -70,15 +74,22 @@ const Folder = () => {
         setOpenReanmeSection(false)
     }
 
+
+    const handleFiltre = (list) => {
+        arr = folders.filter(i => i.id !== list.id);
+        dispatch(filterFolder(arr))
+    }
+
     return (
         <FolderWrap>
             {
-                folders.map((list, index) => {
+
+                folders?.map((list, index) => {
                     return (
                         <AddFoldereWrap key={index}>
                             <IconFolderWrap>
                                 <FolderIcon />
-                                <Link to={`${location.pathname}/${list.name}`}>{list.name}</Link>
+                                <Link onClick={() => handleFiltre(list)} to={`${location.pathname}/${list.name}`}>{list.name}</Link>
                             </IconFolderWrap>
                             <Tooltip title="Reanme">
                                 <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">

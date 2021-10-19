@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { addFolderList } from './../../store/toolkitReducers';
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
 
 const CreateFolderWrap = styled.div`
     width: 20%;
@@ -17,6 +17,7 @@ const CreateFolderWrap = styled.div`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 `
 const CreateFolder = () => {
+    const history = useHistory()
     const dispatch = useDispatch();
     const location = useLocation();
     const locationPatname = location.pathname;
@@ -27,7 +28,10 @@ const CreateFolder = () => {
     }
     const createAndAddFolder = (e) => {
         e.preventDefault()
-        if (nameFolder.length) {
+        if (nameFolder) {
+            if (locationPatname === '/') {
+                history.push('app')
+            }
             dispatch(addFolderList({ nameFolder, locationPatname }))
             setNameFolder('')
         }

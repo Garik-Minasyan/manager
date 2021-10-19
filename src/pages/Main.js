@@ -1,10 +1,9 @@
-import Folder from "../components/createFolder/Folder";
+// import Folder from "../components/createFolder/Folder";
 // import File from "../components/createFile/File";
 const Main = () => {
     return (
         <div>
-            <Folder />
-            {/* <File /> */}
+            Home
         </div>
     )
 }

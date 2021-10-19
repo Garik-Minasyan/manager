@@ -15,7 +15,7 @@ export const deleteFolder = createAction("DELETEFOLDER");
 export const deleteFile = createAction("DELETEFILE");
 export const renameFolder = createAction("REANMEFOLDER");
 export const renameFile = createAction("RENAMEFILE");
-
+export const filterFolder = createAction("FILTERFOLDER");
 export default createReducer(initialState, {
 
     [openedCreateScope]: (state) => {
@@ -44,6 +44,10 @@ export default createReducer(initialState, {
                 type: 'file'
             }
         ]
+    },
+    [filterFolder]: (state, acton) => {
+        state.folders = acton.payload
+
     },
     [deleteFolder]: (state, action) => {
         state.folders = state.folders.filter(folder => folder.id !== action.payload)
