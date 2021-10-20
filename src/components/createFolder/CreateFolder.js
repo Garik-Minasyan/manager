@@ -30,7 +30,7 @@ const CreateFolder = () => {
         e.preventDefault()
         if (nameFolder) {
             if (locationPatname === '/') {
-                history.push('app')
+                history.push(' ')
             }
             dispatch(addFolderList({ nameFolder, locationPatname }))
             setNameFolder('')

@@ -5,11 +5,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { deleteFolder, renameFolder, filterFolder } from './../../store/toolkitReducers';
+import { deleteFolder, renameFolder, filterFolder, handleBack, newFolderItem, vvvvv } from './../../store/toolkitReducers';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import { useState } from "react";
 import { useLocation } from 'react-router';
+import { useHistory } from "react-router-dom";
+
 
 const AddFoldereWrap = styled.div`
     width: 15%;
@@ -43,17 +45,27 @@ const RenameWrap = styled.div`
         outline: none;
     }
 `
-let arr = []
+let arr = [];
+let removeFolders = [];
 
 const Folder = () => {
-    const [openRenameSection, setOpenReanmeSection] = useState(false);
-    const location = useLocation();
 
 
-    const [renameFolderName, setRenameNameFolderName] = useState('');
     const folders = useSelector(state => state.toolkit.folders);
-    console.log(folders)
+    console.log(folders, 'bbbbbbbbbbbbbbbbbbbbbbbb')
+    const deletedItems = useSelector(state => state.toolkit.deletedItems);
+    console.log(deletedItems, 'sssssss');
     const dispatch = useDispatch();
+    const location = useLocation();
+    const [openRenameSection, setOpenReanmeSection] = useState(false);
+    const [backButton, setBackButton] = useState(false);
+    const [renameFolderName, setRenameNameFolderName] = useState('');
+    const history = useHistory();
+
+
+
+    // console.log(folders)
+
     // const currentFolders = folders.finde(i => i.directon === location.pathname);
     // console.log(currentFolders)
 
@@ -77,40 +89,58 @@ const Folder = () => {
 
     const handleFiltre = (list) => {
         arr = folders.filter(i => i.id !== list.id);
-        dispatch(filterFolder(arr))
+        removeFolders = folders.filter(i => i.id === list.id);
+        dispatch(filterFolder(arr));
+        dispatch(handleBack(removeFolders));
+        setBackButton(true)
+    }
+
+    const handleBackFolder = () => {
+        const backItem = removeFolders.filter(i => i.name !== location.pathname);
+        console.log(backItem);
+        dispatch(newFolderItem(backItem));
+        history.goBack();
+        console.log(folders, 'aaaaaaaaaaaaaaaaaaaaaaa')
+        dispatch(vvvvv(folders));
+
+
     }
 
     return (
         <FolderWrap>
             {
-
+                backButton ? <button style={{ margin: 0 }} onClick={handleBackFolder}>...</button> : ''
+            }
+            {
                 folders?.map((list, index) => {
-                    return (
-                        <AddFoldereWrap key={index}>
-                            <IconFolderWrap>
-                                <FolderIcon />
-                                <Link onClick={() => handleFiltre(list)} to={`${location.pathname}/${list.name}`}>{list.name}</Link>
-                            </IconFolderWrap>
-                            <Tooltip title="Reanme">
-                                <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">
-                                    <EditIcon />
+                    // let a = list.direction.slice(1);
+                    // console.log(a, 'gggggg')
+                    return (<AddFoldereWrap key={index}>
+
+                        <IconFolderWrap>
+                            <FolderIcon />
+                            <Link onClick={() => handleFiltre(list)} to={`${location.pathname}/${list.name}`}>{list.name}</Link>
+                        </IconFolderWrap>
+                        <Tooltip title="Reanme">
+                            <IconButton onClick={openRename} aria-label="driveFileRenameOutlineIcon" color="primary" size="medium">
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {
+                            openRenameSection &&
+                            <RenameWrap>
+                                <input onChange={(e) => onChangeName(e)} type='text' placeholder="rename" value={renameFolderName} />
+                                <IconButton onClick={chekedName} aria-label="checked" color="primary" size="medium">
+                                    <CheckIcon />
                                 </IconButton>
-                            </Tooltip>
-                            {
-                                openRenameSection &&
-                                <RenameWrap>
-                                    <input onChange={(e) => onChangeName(e)} type='text' placeholder="rename" value={renameFolderName} />
-                                    <IconButton onClick={chekedName} aria-label="checked" color="primary" size="medium">
-                                        <CheckIcon />
-                                    </IconButton>
-                                </RenameWrap>
-                            }
-                            <Tooltip title="Delete Folder">
-                                <IconButton onClick={() => deleteFolderList(list.id)} aria-label="delete" color="primary" size="medium">
-                                    <Delete color="error" />
-                                </IconButton>
-                            </Tooltip>
-                        </AddFoldereWrap>
+                            </RenameWrap>
+                        }
+                        <Tooltip title="Delete Folder">
+                            <IconButton onClick={() => deleteFolderList(list.id)} aria-label="delete" color="primary" size="medium">
+                                <Delete color="error" />
+                            </IconButton>
+                        </Tooltip>
+                    </AddFoldereWrap>
                     )
                 })
             }

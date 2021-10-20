@@ -4,7 +4,8 @@ import { createReducer, createAction } from "@reduxjs/toolkit";
 const initialState = {
     folders: [],
     files: [],
-    isOpened: true
+    isOpened: true,
+    deletedItems: []
 }
 
 export const openedCreateScope = createAction("OPENEDCREATESCOPE");
@@ -16,6 +17,9 @@ export const deleteFile = createAction("DELETEFILE");
 export const renameFolder = createAction("REANMEFOLDER");
 export const renameFile = createAction("RENAMEFILE");
 export const filterFolder = createAction("FILTERFOLDER");
+export const handleBack = createAction("HANDLEBACK");
+export const newFolderItem = createAction("NEWFOLDERITEM");
+export const vvvvv = createAction("VVVVV");
 export default createReducer(initialState, {
 
     [openedCreateScope]: (state) => {
@@ -45,9 +49,27 @@ export default createReducer(initialState, {
             }
         ]
     },
-    [filterFolder]: (state, acton) => {
-        state.folders = acton.payload
+    [filterFolder]: (state, action) => {
+        state.folders = action.payload
 
+    },
+    [handleBack]: (state, action) => {
+        state.deletedItems = [...state.deletedItems, ...action.payload];
+    },
+    [newFolderItem]: (state, action) => {
+        state.folders = [...state.folders, ...action.payload];
+        // const a = state.deletedItems.pop();
+        state.deletedItems = state.deletedItems.pop();
+        console.log(state.deletedItems, 'foldersssssssssssssssssssssss')
+        // state.folders = state.folders.shift(action.payload)
+    },
+    [vvvvv]: (state, action) => {
+        console.log(action)
+        // state.folders = [...state.folders, ...action.payload];
+        // const a = state.deletedItems.pop();
+        // state.deletedItems = [...state.deletedItems];
+        // console.log(state.folders, 'foldersssssssssssssssssssssss')
+        // state.folders = state.folders.shift()
     },
     [deleteFolder]: (state, action) => {
         state.folders = state.folders.filter(folder => folder.id !== action.payload)
