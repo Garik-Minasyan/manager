@@ -58,18 +58,12 @@ export default createReducer(initialState, {
     },
     [newFolderItem]: (state, action) => {
         state.folders = [...state.folders, ...action.payload];
-        // const a = state.deletedItems.pop();
-        state.deletedItems = state.deletedItems.pop();
-        console.log(state.deletedItems, 'foldersssssssssssssssssssssss')
-        // state.folders = state.folders.shift(action.payload)
+        const popedItem = state.deletedItems.pop();
+        state.deletedItems = state.deletedItems;
     },
     [vvvvv]: (state, action) => {
-        console.log(action)
-        // state.folders = [...state.folders, ...action.payload];
-        // const a = state.deletedItems.pop();
-        // state.deletedItems = [...state.deletedItems];
-        // console.log(state.folders, 'foldersssssssssssssssssssssss')
-        // state.folders = state.folders.shift()
+        const shiftedItem = state.folders.shift();
+        state.folders = state.folders;
     },
     [deleteFolder]: (state, action) => {
         state.folders = state.folders.filter(folder => folder.id !== action.payload)

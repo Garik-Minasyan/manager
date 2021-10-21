@@ -50,24 +50,14 @@ let removeFolders = [];
 
 const Folder = () => {
 
-
     const folders = useSelector(state => state.toolkit.folders);
-    console.log(folders, 'bbbbbbbbbbbbbbbbbbbbbbbb')
     const deletedItems = useSelector(state => state.toolkit.deletedItems);
-    console.log(deletedItems, 'sssssss');
     const dispatch = useDispatch();
     const location = useLocation();
     const [openRenameSection, setOpenReanmeSection] = useState(false);
     const [backButton, setBackButton] = useState(false);
     const [renameFolderName, setRenameNameFolderName] = useState('');
     const history = useHistory();
-
-
-
-    // console.log(folders)
-
-    // const currentFolders = folders.finde(i => i.directon === location.pathname);
-    // console.log(currentFolders)
 
     const deleteFolderList = (id) => {
         dispatch(deleteFolder(id))
@@ -80,12 +70,12 @@ const Folder = () => {
     const onChangeName = (e) => {
         setRenameNameFolderName(e.target.value)
     }
+
     const chekedName = () => {
         dispatch(renameFolder(renameFolderName))
         setRenameNameFolderName('')
         setOpenReanmeSection(false)
     }
-
 
     const handleFiltre = (list) => {
         arr = folders.filter(i => i.id !== list.id);
@@ -96,14 +86,14 @@ const Folder = () => {
     }
 
     const handleBackFolder = () => {
-        const backItem = removeFolders.filter(i => i.name !== location.pathname);
-        console.log(backItem);
+        const locationSplit = location.pathname.split('/');
+        const newLocation = locationSplit[locationSplit.length - 1];
+        const backItem = deletedItems.filter(i => i.name === newLocation);
         dispatch(newFolderItem(backItem));
         history.goBack();
-        console.log(folders, 'aaaaaaaaaaaaaaaaaaaaaaa')
-        dispatch(vvvvv(folders));
-
-
+        if (folders.length >= 1) {
+            dispatch(vvvvv());
+        }
     }
 
     return (
@@ -113,8 +103,6 @@ const Folder = () => {
             }
             {
                 folders?.map((list, index) => {
-                    // let a = list.direction.slice(1);
-                    // console.log(a, 'gggggg')
                     return (<AddFoldereWrap key={index}>
 
                         <IconFolderWrap>
