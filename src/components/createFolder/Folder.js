@@ -91,7 +91,7 @@ const Folder = () => {
         const backItem = deletedItems.filter(i => i.name === newLocation);
         dispatch(newFolderItem(backItem));
         history.goBack();
-        if (folders.length >= 1) {
+        if (folders.length >= 1 || backItem.length == 1) {
             dispatch(vvvvv());
         }
     }
